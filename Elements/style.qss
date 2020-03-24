@@ -51,6 +51,20 @@ QPushButton::!enabled{
 	color: #E91E63;
 }
 
+QRadioButton{
+	color : #999999;
+}
+QRadioButton::indicator{
+	width :16px;
+	height: 16px;
+	border-radius : 8px;
+}
+QRadioButton::indicator::unchecked{
+	image: url(./Elements/radio_unchecked.png);
+}
+QRadioButton::indicator::checked{
+	image: url(./Elements/radio_checked.png);
+}
 
 QLineEdit
 {
@@ -81,23 +95,21 @@ QMessageBox{
 }
 
 
-
-
 QLabel#main_screen_heading{
 	color : #ADFF2F;
-	font-size : 36px;
+	font-size : 26px;
 }
 QLabel#main_screen_sub_heading{
 	color : #23B2EE;
-	font-size : 28px;
+	font-size : 18px;
 }
 QLabel#main_screen_sub_heading2{
 	color : #E91E63;
-	font-size : 28px;
+	font-size : 18px;
 }
 QLabel#main_screen_content{
 	color : #DDDDDD;
-	font-size : 25px;
+	font-size : 15px;
 }
 
 QDialog{

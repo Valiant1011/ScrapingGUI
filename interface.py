@@ -15,6 +15,8 @@ class main_window(QWizard):
 		self.setWindowIcon(QIcon('Elements/logo.png'))
 		self.setWindowTitle("Web Scraping")
 		self.setFixedSize(available_width/2, available_height/2)
+		self.box_width = available_width/2
+		self.box_height = available_height/2
 	
 		self.page1 = wizard_page(1)
 		self.addPage(self.page1)
@@ -35,10 +37,13 @@ class main_window(QWizard):
 			# self.page2.layout().itemAt(0).widget().layout().itemAt(0).widget().setText('Pass')
 
 			print('Data entry:')
-			print('Path: ', self.field("Path"))
+			print('File Path: ', self.field("Path"))
 			print('Start Point: ', self.field("StartingPoint"))
 			print('Ending Point: ', self.field("EndingPoint"))
 			print('Sheet Index: ', self.field("SheetIndex"))
+			print('Document Path: ', self.field("DocPath"))
+			print('Timeout: ', self.field("Timeout"))
+			print('Message: ', self.field("Message"))
 
 			print('Whatsapp Page')
 		elif page == 2:

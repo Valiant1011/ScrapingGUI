@@ -27,10 +27,10 @@ class wizard_page(QWizardPage):
 		self.file_location_label.setObjectName('main_screen_sub_heading')
 		self.path_entry = QLineEdit()
 		self.path_entry.setPlaceholderText('Enter file path (.xlsx files only)')
-		self.path_entry.setFixedSize(350, 40)
+		self.path_entry.setFixedSize(350, 25)
 		self.registerField("Path", self.path_entry)
 		self.browse_button = QPushButton('...')
-		self.browse_button.setFixedSize(40, 40)
+		self.browse_button.setFixedSize(25, 25)
 		self.browse_button.clicked.connect(
 			self.browse_manager
 		)
@@ -46,12 +46,12 @@ class wizard_page(QWizardPage):
 		self.starting_point_label = QLabel('Start Point:  ')
 		self.starting_point_label.setObjectName('main_screen_sub_heading')
 		self.starting_point_entry = QLineEdit()
-		self.starting_point_entry.setFixedSize(150, 40)
+		self.starting_point_entry.setFixedSize(150, 25)
 		self.registerField("StartingPoint", self.starting_point_entry)
 		self.ending_point_label = QLabel('End Point: ')
 		self.ending_point_label.setObjectName('main_screen_sub_heading')
 		self.ending_point_entry = QLineEdit()
-		self.ending_point_entry.setFixedSize(150, 40)
+		self.ending_point_entry.setFixedSize(150, 25)
 		self.registerField("EndingPoint", self.ending_point_entry)
 		self.points_widget = QWidget()
 		self.points_layout = QHBoxLayout(self.points_widget)
@@ -65,13 +65,61 @@ class wizard_page(QWizardPage):
 		self.sheet_index_label = QLabel('Sheet Index: ')
 		self.sheet_index_label.setObjectName('main_screen_sub_heading')
 		self.sheet_index_entry = QLineEdit()
-		self.sheet_index_entry.setFixedSize(100, 40)
+		self.sheet_index_entry.setFixedSize(50, 25)
+		self.sheet_index_entry.setText('A1')
 		self.registerField("SheetIndex", self.sheet_index_entry)
 		self.sheet_index_widget = self.get_horizontal_widget(
 			self.sheet_index_label,
 			self.sheet_index_entry
 		)
 
+		self.document_image_label = QLabel('Document/Image: ')
+		self.document_image_label.setObjectName('main_screen_sub_heading')
+		self.doc_image_entry = QLineEdit()
+		self.doc_image_entry.setPlaceholderText('Enter file path (.xlsx files only)')
+		self.doc_image_entry.setFixedSize(350, 25)
+		self.registerField("DocPath", self.doc_image_entry)
+		self.doc_browse_button = QPushButton('...')
+		self.doc_browse_button.setFixedSize(25, 25)
+		self.doc_browse_button.clicked.connect(self.doc_browse_manager)
+		self.doc_browse_button.setToolTip('Browse for file.')
+		self.doc_entry_layout = QHBoxLayout()
+		self.doc_entry_layout.addWidget(self.document_image_label)
+		self.doc_entry_layout.addWidget(self.doc_image_entry)
+		self.doc_entry_layout.addWidget(self.doc_browse_button)
+		self.doc_entry_layout.addStretch(50)
+		self.doc_entry_widget = QWidget()
+		self.doc_entry_widget.setLayout(self.doc_entry_layout)
+
+		self.timeout_label = QLabel('Time out: ')
+		self.timeout_label.setObjectName('main_screen_sub_heading')
+		self.rbutton1 = QRadioButton('Automatic')
+		self.rbutton1.toggled.connect(lambda: self.time_rbutton_handler(1))
+		self.rbutton2 = QRadioButton('Manual')
+		self.rbutton1.toggled.connect(lambda: self.time_rbutton_handler(2))
+		self.rbutton2.setChecked(True)
+		self.time_entry = QLineEdit()
+		self.time_entry.setText('30')
+		self.time_entry.setFixedSize(40, 25)
+		self.registerField("Timeout", self.time_entry)
+		self.seconds_label = QLabel('Seconds')
+		self.seconds_label.setObjectName('main_screen_content')
+		self.time_widget = QWidget()
+		self.time_layout = QHBoxLayout(self.time_widget)
+		self.time_layout.addWidget(self.timeout_label)
+		self.time_layout.addStretch(1)
+		self.time_layout.addWidget(self.rbutton1)
+		self.time_layout.addStretch(1)
+		self.time_layout.addWidget(self.rbutton2)
+		self.time_layout.addStretch(1)
+		self.time_layout.addWidget(self.time_entry)
+		self.time_layout.addWidget(self.seconds_label)
+		self.time_layout.addStretch(7)
+
+		self.message_widget = QTextEdit()
+		self.message_widget.setPlaceholderText('Message')
+		self.registerField('Message', self.message_widget)
+		
 		self.main_widget = QWidget()
 		self.main_widget.setObjectName('content_box')
 		self.main_layout = QVBoxLayout(self.main_widget)
@@ -82,8 +130,23 @@ class wizard_page(QWizardPage):
 		self.main_layout.addWidget(self.points_widget)
 		self.main_layout.addStretch(1)
 		self.main_layout.addWidget(self.sheet_index_widget)
+		self.main_layout.addStretch(1)
+		self.main_layout.addWidget(self.doc_entry_widget)
+		self.main_layout.addStretch(1)
+		self.main_layout.addWidget(self.time_widget)
+		self.main_layout.addStretch(1)
+		self.main_layout.addWidget(self.message_widget)
 		self.main_layout.addStretch(2)
 		return self.main_widget	
+
+	def time_rbutton_handler(self, index):
+		if index == 1:
+			if self.rbutton1.isChecked():
+				self.time_entry.setText('30')
+				self.time_entry.setReadOnly(True)
+		if index == 2:
+			if self.rbutton2.isChecked():
+				self.time_entry.setReadOnly(False)
 
 	def page2(self):
 		self.whatsapp_logo = QLabel()
@@ -153,3 +216,13 @@ class wizard_page(QWizardPage):
 			"Excel Docs (*.xlsx)"
 		)
 		self.path_entry.setText(file_name[0])
+
+	def doc_browse_manager(self):
+		file_name = ''
+		file_name = QFileDialog.getOpenFileName(
+			self,
+			"Open File", 
+			"./", 
+			"*.xlsx"
+		)
+		self.doc_image_entry.setText(file_name[0])
