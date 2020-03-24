@@ -221,8 +221,8 @@ class wizard_page(QWizardPage):
 		file_name = ''
 		file_name = QFileDialog.getOpenFileName(
 			self,
-			"Open File", 
+			"Select File", 
 			"./", 
-			"*.xlsx"
+			"Images (*.png *.gif *.jpg);;Text files (*.txt);;Documents(*.pdf *.docx)"
 		)
 		self.doc_image_entry.setText(file_name[0])

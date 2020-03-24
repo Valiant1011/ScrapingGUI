@@ -11,6 +11,12 @@ QWidget#screen_widget
 QWidget#content_box{
 	background : #101422;
 }
+QWizard{
+	background-color : #101422;
+}
+QWizardPage{
+	background-color : #101422;
+}
 
 
 QPushButton{

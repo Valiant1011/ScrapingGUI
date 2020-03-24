@@ -1,4 +1,3 @@
-# Special thanks to www.pythonspot.com for this!
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QIcon, QPalette, QColor, QPixmap
 from PyQt5.QtCore import *
